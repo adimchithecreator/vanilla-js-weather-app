@@ -38,6 +38,9 @@ function displayWeather(response) {
   let wind = document.querySelector("#wind");
   let date = document.querySelector("#date");
   let icon= document.querySelector("#icon");
+
+  celsiusTemperature= Math.round(response.data.main.temp);
+
   city.innerHTML = response.data.name;
   description.innerHTML = response.data.weather[0].description;
   temperature.innerHTML = Math.round(response.data.main.temp);
@@ -51,7 +54,6 @@ function displayWeather(response) {
    icon.setAttribute("alt", response.data.weather[0].description);
 
 }
-
 function handleSubmit(event) {
   event.preventDefault();
   let cityInputElement = document.querySelector("#city-input");
@@ -60,9 +62,32 @@ function handleSubmit(event) {
 function search(city) {
 let apiKey = "0c249e7e69e1efdbbeab00f732a6ff42";
 let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-
 axios.get(url).then(displayWeather);
 }
-
+function displayFahrenheitTemp(event) {
+    event.preventDefault();
+    let temperature = document.querySelector("#temperature");
+  celsiusLink.classList.remove("active");
+   fahrenheitLink.classList.add("active");
+ 
+    let fahrenheit = (celsiusTemperature * 9) / 5 + 32;
+    temperature.innerHTML= Math.round(fahrenheit);
+}
+function displayCelsiusTemp(event) {
+    event.preventDefault();
+    let temperature = document.querySelector("#temperature");
+   fahrenheitLink.classList.remove("active");
+   celsiusLink.classList.add("active");
+    temperature.innerHTML= Math.round(celsiusTemperature);
+}
+let celsiusTemperature=null;
 let form = document.querySelector("#search-form");
 form.addEventListener("submit", handleSubmit);
+
+let fahrenheitLink= document.querySelector("#fahrenheit-link");
+fahrenheitLink.addEventListener("click", displayFahrenheitTemp);
+
+let celsiusLink = document.querySelector("#celsius-link");
+celsiusLink.addEventListener("click", displayCelsiusTemp);
+
+search("Rome");
