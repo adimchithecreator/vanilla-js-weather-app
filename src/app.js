@@ -52,8 +52,17 @@ function displayWeather(response) {
 
 }
 
+function handleSubmit(event) {
+  event.preventDefault();
+  let cityInputElement = document.querySelector("#city-input");
+  search(cityInputElement.value);
+}
+function search(city) {
 let apiKey = "0c249e7e69e1efdbbeab00f732a6ff42";
-let city = "Toronto";
 let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
 axios.get(url).then(displayWeather);
+}
+
+let form = document.querySelector("#search-form");
+form.addEventListener("submit", handleSubmit);
